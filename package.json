@@ -4,8 +4,19 @@
   "description": "A Node.js proxy server that handles all HTTP methods and CORS",
   "author": "MAMEDUL ISLAM",
   "main": "proxy.js",
+  "builds": [
+    {
+      "src": "proxy.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "proxy.js"
+    }
+  ],
   "scripts": {
-    "build": "npm install",
     "start": "node proxy.js",
     "dev": "nodemon proxy.js"
   },
