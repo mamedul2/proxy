@@ -12,9 +12,9 @@ app.use((req, res, next) => {
   next();
 });
 
-try{
-  app.use('/:protocol(http|https)/*', (req, res, next) => {
-    const targetUrl = `${req.params.protocol}://${req.params[0]}`;
+try {
+  app.use('/:protocol(http|https)://:targetUrl(*)', (req, res, next) => {
+    const targetUrl = `${req.params.protocol}://${req.params.targetUrl}`;
     const proxy = createProxyMiddleware({
       target: targetUrl,
       changeOrigin: true,
@@ -23,16 +23,14 @@ try{
     });
     proxy(req, res, next);
   });
-
-}catch(err){
-  app.use('/*', (req, res, next) => {
-    const fullPath = req.params[0]; // everything after the first slash
+} catch (err) {
+  app.all('*', (req, res, next) => {
+    const fullPath = req.path.slice(1);
     let targetUrl;
-
     try {
       targetUrl = decodeURIComponent(fullPath);
     } catch {
-      return res.status(400).send('Invalid target URL encoding');
+      return res.status(400).send('Invalid URL encoding');
     }
 
     if (!/^https?:\/\//i.test(targetUrl)) {
