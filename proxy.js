@@ -17,7 +17,7 @@ const server = corsAnywhere.createServer({
 });
 
 app.use((req, res) => {
-  if (req.path === '/' || req.path === '') {
+  /*if (req.path === '/' || req.path === '') {
     res.writeHead(200, { 
       'Content-Type': 'text/html',
       'Access-Control-Allow-Origin': '*'
@@ -26,7 +26,7 @@ app.use((req, res) => {
             <p>Usage: append the target URL to the path, e.g.</p>
             <pre>http://${host}:${port}/https://example.com/api</pre>`);
     return; // Don't proxy this request
-  }
+  }*/
   // cors-anywhere expects the target URL as the rest of the path
   server.emit('request', req, res);
 });
