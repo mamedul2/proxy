@@ -30,6 +30,11 @@ app.use((req, res, next) => {
     changeOrigin: true,
     secure: false,
     logLevel: 'silent',
+    onProxyRes(proxyRes, req, res) {
+      proxyRes.headers['access-control-allow-origin'] = '*';
+      proxyRes.headers['access-control-allow-methods'] = 'GET,POST,PUT,DELETE,PATCH,OPTIONS,HEAD';
+      proxyRes.headers['access-control-allow-headers'] = 'Content-Type, Authorization, X-Requested-With';
+    }
   })(req, res, next);
 
 });
