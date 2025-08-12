@@ -25,6 +25,7 @@ app.use((req, res) => {
   server.emit('request', req, res);
 });
 
-app.listen(port, host, () => {
+//app.listen(port, host, () => { console.log(`CORS Anywhere proxy running on http://${host}:${port}`); });
+app.listen(port, () => {
   console.log(`CORS Anywhere proxy running on http://${host}:${port}`);
 });
