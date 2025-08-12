@@ -20,7 +20,7 @@ Access any URL via a simple path-based proxy — perfect for bypassing CORS rest
 [https://your-proxy.com/https://target-website.com/api](https://your-proxy.com/https://target-website.com/api)
 
 ````
-- ✅ Built with popular, battle-tested libraries: **Express** and **http-proxy-middleware**
+- ✅ Built with popular, battle-tested libraries: **Express** and **cors-anywhere**
 - ✅ Lightweight and fast — minimal dependencies for maximum performance
 - ✅ Fully configurable via `.env` file (e.g., port settings)
 - ✅ Handles CORS preflight `OPTIONS` requests gracefully
@@ -105,7 +105,7 @@ http://localhost:3000/https://example.com/api/data
 
 * The proxy listens for incoming requests matching `/http(s)://target-url/*`.
 * It extracts the target URL from the request path.
-* Uses `http-proxy-middleware` to forward the request to the target.
+* Uses `cors-anywhere` to forward the request to the target.
 * Adds permissive CORS headers to all responses.
 * Handles `OPTIONS` preflight requests immediately with no content.
 * Returns the proxied response back to the client exactly as received.
@@ -143,7 +143,7 @@ This project is licensed under the [MIT License](https://mit-license.org/) — f
 
 ## Keywords
 
-Node.js proxy server, no CORS proxy, HTTP proxy, HTTPS proxy, API proxy, cross-origin proxy, Express proxy server, http-proxy-middleware, bypass CORS, open source proxy, Node.js API proxy, universal proxy
+Node.js proxy server, no CORS proxy, HTTP proxy, HTTPS proxy, API proxy, cross-origin proxy, Express proxy server, cors-anywhere, bypass CORS, open source proxy, Node.js API proxy, universal proxy
 
 
 ---

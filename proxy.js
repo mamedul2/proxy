@@ -11,17 +11,20 @@ const port = process.env.PORT || 3000;
 const originWhitelist = []; 
 
 const server = corsAnywhere.createServer({
-  originWhitelist,
-  requireHeaders: [],
-  removeHeaders: [],
-  //requireHeaders: ['origin', 'x-requested-with'],
-  //removeHeaders: ['cookie', 'cookie2'],
-  // You can add other options here if needed
+  "originWhitelist" : originWhitelist,
+  "requireHeaders" : [],
+  "removeHeaders" : [],
 });
 
 app.use((req, res) => {
+  if (req.path === '/' || req.path === '') {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(`<h1>CORS Anywhere Proxy</h1>
+            <p>Usage: append the target URL to the path, e.g.</p>
+            <pre>http://${host}:${port}/https://example.com/api</pre>`);
+    return; // Don't proxy this request
+  }
   // cors-anywhere expects the target URL as the rest of the path
-  // e.g. GET /https://example.com/api
   server.emit('request', req, res);
 });
 
