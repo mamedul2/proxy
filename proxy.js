@@ -1,45 +1,30 @@
 require('dotenv').config({ quiet: true });
 const express = require('express');
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const corsAnywhere = require('cors-anywhere');
 
 const app = express();
 
-app.use((req, res, next) => {
+const host = process.env.HOST || '0.0.0.0';
+const port = process.env.PORT || 3000;
 
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATCH,OPTIONS,HEAD');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
-  if (req.method === 'OPTIONS') return res.sendStatus(204);
+// Optional: restrict origins (empty array = allow all)
+const originWhitelist = []; 
 
-  const fullPath = req.originalUrl.slice(1); //req.path.slice(1);
-  
-  let targetUrl;
-
-  try {
-    targetUrl = decodeURIComponent(fullPath); //fullPath; 
-  } catch {
-    return res.status(400).send('Invalid URL encoding');
-  }
-
-  if (!/^(http|https)?:\/\//i.test(targetUrl)) {
-    return res.status(400).send('Invalid target URL. *Must start with http:// or https://');
-  }
-
-  createProxyMiddleware({
-    target: targetUrl,
-    changeOrigin: true,
-    secure: false,
-    logLevel: 'silent',
-    onProxyRes(proxyRes, req, res) {
-      proxyRes.headers['access-control-allow-origin'] = '*';
-      proxyRes.headers['access-control-allow-methods'] = 'GET,POST,PUT,DELETE,PATCH,OPTIONS,HEAD';
-      proxyRes.headers['access-control-allow-headers'] = 'Content-Type, Authorization, X-Requested-With';
-    }
-  })(req, res, next);
-
+const server = corsAnywhere.createServer({
+  originWhitelist,
+  requireHeaders: [],
+  removeHeaders: [],
+  //requireHeaders: ['origin', 'x-requested-with'],
+  //removeHeaders: ['cookie', 'cookie2'],
+  // You can add other options here if needed
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Proxy server listening on port ${PORT}`);
+app.use((req, res) => {
+  // cors-anywhere expects the target URL as the rest of the path
+  // e.g. GET /https://example.com/api
+  server.emit('request', req, res);
+});
+
+app.listen(port, host, () => {
+  console.log(`CORS Anywhere proxy running on http://${host}:${port}`);
 });
