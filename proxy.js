@@ -11,13 +11,12 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
   if (req.method === 'OPTIONS') return res.sendStatus(204);
 
-  //const fullPath = req.path.slice(1);
-  const fullPath = req.originalUrl.slice(1);
+  const fullPath = req.originalUrl.slice(1); //req.path.slice(1);
   
   let targetUrl;
 
   try {
-    targetUrl = fullPath; //decodeURIComponent(fullPath);
+    targetUrl = decodeURIComponent(fullPath); //fullPath; 
   } catch {
     return res.status(400).send('Invalid URL encoding');
   }
