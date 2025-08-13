@@ -25,9 +25,9 @@ const server = corsAnywhere.createServer({
 });
 
 app.use((req, res) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATCH,OPTIONS,HEAD');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+  //res.header('Access-Control-Allow-Origin', '*');
+  //res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATCH,OPTIONS,HEAD');
+  //res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
   // cors-anywhere expects the target URL as the rest of the path
   // e.g. GET /https://example.com/api
   server.emit('request', req, res);
