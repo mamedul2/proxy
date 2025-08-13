@@ -66,7 +66,8 @@ textarea {
 <script>
   //var cors_api_url = 'https://cors-anywhere.herokuapp.com/';
   //var cors_api_url = 'http://127.0.0.1:80/';
-  var cors_api_url = 'http://127.0.0.1/';
+  //var cors_api_url = 'http://127.0.0.1/';
+  var cors_api_url = 'https://proxy-zeta-rust.vercel.app/';
   function doCORSRequest(options, printResult) {
     var x = new XMLHttpRequest();
     x.open(options.method, cors_api_url + options.url);

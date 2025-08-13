@@ -14,9 +14,14 @@ const server = corsAnywhere.createServer({
   originWhitelist,
   requireHeaders: [],
   removeHeaders: [],
-  //requireHeaders: ['origin', 'x-requested-with'],
-  //removeHeaders: ['cookie', 'cookie2'],
-  // You can add other options here if needed
+  onProxyRes: (proxyRes, req, res) => {
+    proxyRes.headers['access-control-allow-origin'] = '*';
+    proxyRes.headers['access-control-allow-methods'] = 'GET,POST,PUT,DELETE,PATCH,OPTIONS,HEAD';
+    proxyRes.headers['access-control-allow-headers'] = 'Content-Type, Authorization, X-Requested-With';
+    proxyRes.headers['access-control-expose-headers'] = 'X-Request-URL, X-Final-URL';
+    delete proxyRes.headers['set-cookie'];
+    delete proxyRes.headers['set-cookie2'];
+  }
 });
 
 app.use((req, res) => {
