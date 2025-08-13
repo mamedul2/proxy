@@ -25,11 +25,25 @@ const server = corsAnywhere.createServer({
 });
 
 app.use((req, res) => {
-  //res.header('Access-Control-Allow-Origin', '*');
-  //res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATCH,OPTIONS,HEAD');
-  //res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+  
   // cors-anywhere expects the target URL as the rest of the path
   // e.g. GET /https://example.com/api
+  const fullPath = req.originalUrl.slice(1); //req.path.slice(1);
+  
+  let targetUrl;
+
+  try {
+    targetUrl = decodeURIComponent(fullPath); //fullPath; 
+  } catch {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATCH,OPTIONS,HEAD');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+    return res.status(400).send('Invalid URL encoding');
+  }
+  console.log(req.url);
+  // now change req url
+  req.url = '/' + targetUrl;
+  console.log(req.url);
   server.emit('request', req, res);
 });
 
